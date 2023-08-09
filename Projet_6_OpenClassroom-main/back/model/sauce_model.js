@@ -1,3 +1,4 @@
+//Crée et gérer les donner dans MongoDB pour les sauces piquante
 const mongoose = require("mongoose");
 
 

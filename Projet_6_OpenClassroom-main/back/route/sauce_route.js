@@ -1,10 +1,11 @@
+//constante pour les sauces
 const sauceCtrl = require("../controller/sauce_controller");
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const multer = require("../middleware/multer")
 
-
+//ROUTER afin de gérer les diffénts comportements des sauces
 router.post("/",auth, multer, sauceCtrl.createSauce)
 router.get("/:id",auth, sauceCtrl.getOneSauce)
 router.get("/",auth, sauceCtrl.getAllSauce)

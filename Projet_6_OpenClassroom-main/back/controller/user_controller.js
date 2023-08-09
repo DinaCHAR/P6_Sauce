@@ -1,3 +1,5 @@
+//Ce fichier est utiliser, afin de vérifier l'auth de l'auth de l'utilisateur
+
 const User = require("../model/user_model");
 const bcrypt = require("bcrypt");
 const cryptoJs = require("crypto-js");
@@ -32,19 +34,19 @@ exports.login = (req,res)=>{
 
     //crypter l'email
     const emailCrypto = cryptoJs.HmacSHA1(req.body.email, `process.env.SECRET_EMAIL`).toString();
-    //controller si l'email est dans la base de donnée findOne sert a allez chercher dans la base de donnée
+    //controller si l'email est dans la base de donnée findOne sert a allez chercher dans la base de donnée (MongoDB)
     User.findOne({ email:emailCrypto})
     .then((user)=> {
-        //si luser n'existe pas dans la bd
+        //si l'utilisateur' n'existe pas dans la base de donnée alors un message d'erreur à été mis en place 
         if (!user) {
             return res.status(401).json({error: "Utilisateur non trouvé"})
         }
         //compare le password
             bcrypt.compare(req.body.password, user.password)
-                .then((test)=>{
+                .then((password)=>{
                     
-                    //si le password n'est pas bon
-                    if (!test) {
+                    //Vérification du mp, si ce dernier n'est pas correct alors un message d'erreur apparaît
+                    if (!password) {
                         return res.status(401).json({error: "Mot de passe non valide"})
                     }
                     //si le mot de passe est correct, création du token et assignation du l' userId

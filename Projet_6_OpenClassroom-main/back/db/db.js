@@ -1,8 +1,10 @@
+//Ce fichier contenait la connexion MongoDB, mais ce dernier n'est plus utilisé
+
 /*const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
 
-mongoose.connect('mongodb+srv://fred:hnykBAi3mi7YICXb@cluster0.qs6k4jk.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('')
 .then(()=> console.log("Connect MongoDB succes"))
 .catch(()=>console.log("Connect MongoDB loose"))
 

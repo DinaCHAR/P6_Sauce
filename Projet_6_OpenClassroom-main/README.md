@@ -1,6 +1,6 @@
 # Projet_6_OpenClassroom
     Clonez le Projet avec:
-        - git clone https://github.com/KhemisL/Projet_6_OpenClassroom.git
+        - git clone https://github.com/DinaCHAR/P6_Sauce.git
 
 # Installation du Front-end
     Placez-vous dans le dossier frontEnd avec:
