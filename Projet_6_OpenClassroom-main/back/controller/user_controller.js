@@ -1,6 +1,7 @@
 //Ce fichier est utiliser, afin de vérifier l'auth de l'auth de l'utilisateur
 
 const User = require("../model/user_model");
+//Hachage
 const bcrypt = require("bcrypt");
 const cryptoJs = require("crypto-js");
 const jwt = require("jsonwebtoken");
@@ -9,7 +10,7 @@ const jwt = require("jsonwebtoken");
 exports.signup = (req,res, next)=>{
 
 
-    //crypter l'email
+    //crypter l'email pour plus de securité
     const emailCrypto = cryptoJs.HmacSHA1(req.body.email, `process.env.SECRET_EMAIL`).toString();
 
     //crypter password et créer nouvelle utilisateur

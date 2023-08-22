@@ -1,4 +1,5 @@
 //Crée et gérer les donner dans MongoDB pour les sauces piquante
+//Crée une interface à la base de donnée
 const mongoose = require("mongoose");
 
 
