@@ -31,8 +31,6 @@ exports.signup = (req,res, next)=>{
 
 exports.login = (req,res)=>{
 
-    
-
     //crypter l'email
     const emailCrypto = cryptoJs.HmacSHA1(req.body.email, `process.env.SECRET_EMAIL`).toString();
     //controller si l'email est dans la base de donnée findOne sert a allez chercher dans la base de donnée (MongoDB)
@@ -53,7 +51,9 @@ exports.login = (req,res)=>{
                     //si le mot de passe est correct, création du token et assignation du l' userId
                     res.status(200).json({
                         userId: user._id,
+                        //crée le token
                         token: jwt.sign(
+                            //Clé valeur
                             {userId: user._id},
                             process.env.KEY_TOKEN,
                             {expiresIn: "24h"}
