@@ -4,10 +4,6 @@ const Sauce = require("../model/sauce_model");
 exports.createSauce = (req,res)=>{
     
     const sauceValue = JSON.parse(req.body.sauce);
-    //Supp l'id de la sauce
-    delete sauceObject._id;
-    //Pour sécurisé l'utilisateur, on supp l'id de la personne qui crée la sauce 
-    delete sauceObject.userId;
     
     const sauce = new Sauce({
         ...sauceValue,
@@ -38,33 +34,51 @@ exports.getAllSauce = (req,res)=>{
     .catch((err)=>res.status(401).json({err}))
 }
 
-
-exports.modifySauce = (req,res)=>{
     
-    //Ajouter une image a la sauce 
+exports.modifySauce = (req,res)=>{
+   
+
+    Sauce.findOne({_id: req.params.id})
+    .then(sauce => {
+        if (sauce.userId != req.auth.userId){
+		res.status(401).json({message: "Not authorized"});
+    }else {
+       //Ajouter une image a la sauce 
     const ProductObject = req.file ?
     {
       ...JSON.parse(req.body.sauce),
       imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
     } : { ...req.body };
 
+    //Supp l'id de la sauce
+     delete ProductObject._id;
+    //Pour sécurisé l'utilisateur, on supp l'id de la personne qui crée la sauce 
+     delete ProductObject.userId;
+
+    console.log(ProductObject._userID);
     //Avoir la possibiliter de modifier la sauce crée 
     const id = req.params.id
     Sauce.updateOne({_id: id}, {...ProductObject, _id: id})
      .then(()=>res.status(200).json({message: "Produit modifié"}))
      .catch((err)=> res.status(403).json({err}))
-
-    
+        }
+    })
 }
 
 //Permettre à l'uiliateur de supprimer une sauce 
 exports.deleteSauce = (req,res)=>{
+
+    Sauce.findOne({_id: req.params.id})
+    .then(sauce => {
+        if (sauce.userId != req.auth.userId){
+		res.status(401).json({message: "Not authorized"});
+    }else{
     Sauce.deleteOne({_id: req.params.id})
     .then(()=> res.status(201).json({message: "Sauce supprimé" }))
     .catch((err)=>res.status(401).json({err}))
+        }
+    })
 }
-
-
 
 exports.likeSauce = (req,res)=> {
 
@@ -99,7 +113,7 @@ Sauce.findOne({_id: req.params.id})
                 .then(()=>res.status(200).json({message: "Utilisateur supprime dislike 0"}))
                 .catch((err)=> res.status(403).json({err}))     
         }
-        
-    })
+     
+})
     .catch((err)=>res.status(404).json({err}))
 }
